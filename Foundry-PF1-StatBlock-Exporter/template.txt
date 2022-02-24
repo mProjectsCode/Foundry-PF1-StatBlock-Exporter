@@ -1,0 +1,12 @@
+### {{ @name }} CR {{ #CR }}
+XP {{ @data.details.xp.value }}
+{{ @data.details.x.value }}
+
+#### DEFENSE
+
+
+#### OFFENSE
+
+
+#### STATISTICS
+**Str** {{ @data.abilities.str.value }}, **Dex** {{ @data.abilities.dex.value }}, **Con** {{ @data.abilities.con.value }}, **Int** {{ @data.abilities.int.value }}, **Wis** {{ @data.abilities.wis.value }}, **Cha** {{ @data.abilities.cha.value }}

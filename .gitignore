@@ -1,0 +1,12 @@
+bin/
+bin/**
+!bin/Debug/net5.0/input/
+!bin/Debug/net5.0/output/
+
+
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+.idea
+.vs

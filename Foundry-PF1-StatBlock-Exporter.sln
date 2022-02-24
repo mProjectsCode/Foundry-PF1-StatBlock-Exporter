@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundry-PF1-StatBlock-Exporter", "Foundry-PF1-StatBlock-Exporter\Foundry-PF1-StatBlock-Exporter.csproj", "{0A10AC26-73F5-49C0-BF4F-05957EBEBBDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A10AC26-73F5-49C0-BF4F-05957EBEBBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A10AC26-73F5-49C0-BF4F-05957EBEBBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A10AC26-73F5-49C0-BF4F-05957EBEBBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A10AC26-73F5-49C0-BF4F-05957EBEBBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D48EFB6-3F73-4883-B6A9-ED7C4B94A74E}
+	EndGlobalSection
+EndGlobal
