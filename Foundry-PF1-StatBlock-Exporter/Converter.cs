@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Foundry_PF1_StatBlock_Exporter
 {
@@ -14,23 +15,37 @@ namespace Foundry_PF1_StatBlock_Exporter
         private string template;
         private string title;
 
-        private dynamic input;
+        private JObject input;
 
         private List<string> replacements = new List<string>();
 
         private static Regex tagRegex = new Regex("{{ .*? }}");
 
-        public Converter(string inputString, string template, string title)
+        public Converter(string inputString, string templateNpc, string templateCharacter, string title)
         {
             this.inputString = inputString;
-            this.template = template;
             this.title = title;
+
+            input = JObject.Parse(inputString);
+
+            if (input?["data"]?["type"]?.Value<string>() == "npc")
+            {
+                template = templateNpc;
+            }
             
-            input = JsonConvert.DeserializeObject(inputString);
+            if (input?["data"]?["type"]?.Value<string>() == "character")
+            {
+                template = templateCharacter;
+            }
         }
 
         public string Convert()
         {
+            if (template == null)
+            {
+                return "";
+            }
+            
             MatchEvaluator matchEvaluator = new MatchEvaluator(ReplaceTag);
 
             return tagRegex.Replace(template, matchEvaluator);
@@ -47,11 +62,72 @@ namespace Foundry_PF1_StatBlock_Exporter
             {
                 string[] parts = tagContent[1..].Split(".");
 
-                dynamic i = input;
+                JToken i = input;
                     
                 foreach (string part in parts)
                 {
-                    i = i?[part];
+                    if (part.StartsWith("$"))
+                    {
+                        int a = 0;
+                        if (int.TryParse(part[1..], out a))
+                        {
+                            try
+                            {
+                                JEnumerable<JToken>? children = i?.Children();
+                                
+                                if (children == null)
+                                {
+                                    break;
+                                }
+                                
+                                int j = 0;
+                                foreach (JToken child in children)
+                                {
+                                    if (j == a)
+                                    {
+                                        i = child.First;
+                                        break;
+                                    }
+
+                                    j += 1;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("error");
+                                i = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int a = 0;
+                        if (int.TryParse(part, out a))
+                        {
+                            try
+                            {
+                                i = i?[a];
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("error");
+                                i = null;
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                i = i?[part];
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("error");
+                                i = null;
+                            }
+                        }
+                    }
+                    
                 }
 
                 if (i == null)
@@ -60,7 +136,7 @@ namespace Foundry_PF1_StatBlock_Exporter
                 }
                     
                 Console.WriteLine($"value: {i.ToString()}");
-                return i;
+                return i.ToString();
             }
 
             return "NULL";

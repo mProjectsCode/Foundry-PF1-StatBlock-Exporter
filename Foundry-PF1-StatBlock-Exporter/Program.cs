@@ -9,7 +9,8 @@ namespace Foundry_PF1_StatBlock_Exporter
     internal class Program
     {
         public static string RunLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        public static string TemplateLocation = PathHelper.Combine(RunLocation, "template.txt");
+        public static string TemplateNpcLocation = PathHelper.Combine(RunLocation, "templateNpc.txt");
+        public static string TemplateCharacterLocation = PathHelper.Combine(RunLocation, "templateCharacter.txt");
         public static string InputFolder = PathHelper.Combine(RunLocation, "input");
         public static string OutputFolder = PathHelper.Combine(RunLocation, "output");
         
@@ -20,7 +21,8 @@ namespace Foundry_PF1_StatBlock_Exporter
 
         public static void Convert()
         {
-            string template = File.ReadAllText(TemplateLocation);
+            string templateNpc = File.ReadAllText(TemplateNpcLocation);
+            string templateCharacter = File.ReadAllText(TemplateCharacterLocation);
             
             string[] inputFiles = Directory.GetFiles(InputFolder);
 
@@ -29,8 +31,8 @@ namespace Foundry_PF1_StatBlock_Exporter
                 Console.WriteLine($"InputFile: {inputFile}");
                 string content = File.ReadAllText(inputFile);
 
-                Converter converter = new Converter(content, template, "");
-                File.WriteAllText(Path.Combine(OutputFolder, "out.md"), converter.Convert());
+                Converter converter = new Converter(content, templateNpc, templateCharacter, "");
+                File.WriteAllText(Path.Combine(OutputFolder, Path.GetFileNameWithoutExtension(inputFile) + ".md"), converter.Convert());
             }
         }
     }

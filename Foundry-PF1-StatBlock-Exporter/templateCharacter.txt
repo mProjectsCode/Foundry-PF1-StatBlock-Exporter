@@ -1,0 +1,14 @@
+﻿### {{ @data.name }}
+XP {{ @data.data.details.xp.value }}
+{{ @rollData.details.alignment }} {{ @rollData.traits.size }} {{ @data.items.0.data.creatureType }}
+**Init** {{ @rollData.attributes.init.total }}; Senses {{ @rollData.traits.senses }}; Perception {{ @rollData.skills.per.mod }}; Aura
+
+#### DEFENSE
+**AC** {{ @rollData.attributes.ac.normal.total }}, touch {{ @rollData.attributes.ac.touch.total }}, flat-footed {{ @rollData.attributes.ac.flatFooted.total }}
+**hp** {{ @rollData.attributes.hp.max }} ({{ @rollData.attributes.hd.total }}d{{ @rollData.classes.$0.hd }})
+
+#### OFFENSE
+
+
+#### STATISTICS
+**Str** {{ @rollData.abilities.str.value }}, **Dex** {{ @rollData.abilities.dex.value }}, **Con** {{ @rollData.abilities.con.value }}, **Int** {{ @rollData.abilities.int.value }}, **Wis** {{ @rollData.abilities.wis.value }}, **Cha** {{ @rollData.abilities.cha.value }}

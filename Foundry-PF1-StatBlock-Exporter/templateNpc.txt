@@ -1,6 +1,7 @@
-### {{ @name }} CR {{ #CR }}
+﻿### {{ @name }} CR {{ @data.details.cr.base }}
 XP {{ @data.details.xp.value }}
-{{ @data.details.x.value }}
+{{ @data.details.alignment }} {{ @data.traits.size }} {{ @items.0.data.creatureType }}
+**Init** {{ @data.attributes.init.total }}
 
 #### DEFENSE
 
