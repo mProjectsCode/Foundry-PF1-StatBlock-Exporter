@@ -1,6 +1,6 @@
 ﻿namespace Foundry_PF1_StatBlock_Exporter
 {
-    public class PathHelper
+    public static class PathHelper
     {
         public static string Combine(string path1, string path2)
         {
@@ -13,7 +13,7 @@
         public static string TrimSlashes(string path)
         {
             path = ConvertSlashes(path);
-            
+
             if (path.EndsWith("/"))
             {
                 path = path[..^1];
@@ -30,7 +30,7 @@
         public static string ConvertSlashes(string path)
         {
             path = path.Replace("\\", "/");
-            
+
             return path;
         }
     }

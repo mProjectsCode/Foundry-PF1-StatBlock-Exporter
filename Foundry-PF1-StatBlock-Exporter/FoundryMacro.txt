@@ -1,0 +1,6 @@
+﻿let data = {
+  "data": _token.actor,
+  "rollData": _token.actor._rollData
+}
+
+saveDataToFile(JSON.stringify(data), 'json', _token.actor.data.name + '.json')

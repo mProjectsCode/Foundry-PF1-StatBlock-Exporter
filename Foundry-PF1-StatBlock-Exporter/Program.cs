@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Foundry_PF1_StatBlock_Exporter
 {
@@ -13,17 +11,27 @@ namespace Foundry_PF1_StatBlock_Exporter
         public static string TemplateCharacterLocation = PathHelper.Combine(RunLocation, "templateCharacter.txt");
         public static string InputFolder = PathHelper.Combine(RunLocation, "input");
         public static string OutputFolder = PathHelper.Combine(RunLocation, "output");
-        
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             Convert();
         }
 
         public static void Convert()
         {
+            if (!Directory.Exists(InputFolder))
+            {
+                Directory.CreateDirectory(InputFolder);
+            }
+
+            if (!Directory.Exists(OutputFolder))
+            {
+                Directory.CreateDirectory(OutputFolder);
+            }
+
             string templateNpc = File.ReadAllText(TemplateNpcLocation);
             string templateCharacter = File.ReadAllText(TemplateCharacterLocation);
-            
+
             string[] inputFiles = Directory.GetFiles(InputFolder);
 
             foreach (string inputFile in inputFiles)

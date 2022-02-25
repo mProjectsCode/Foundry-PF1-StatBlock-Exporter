@@ -5,10 +5,12 @@ XP {{ @data.data.details.xp.value }}
 
 #### DEFENSE
 **AC** {{ @rollData.attributes.ac.normal.total }}, touch {{ @rollData.attributes.ac.touch.total }}, flat-footed {{ @rollData.attributes.ac.flatFooted.total }}
-**hp** {{ @rollData.attributes.hp.max }} ({{ @rollData.attributes.hd.total }}d{{ @rollData.classes.$0.hd }})
+**hp** {{ #health }}
+**Fort** {{ @rollData.attributes.savingThrows.fort.total }}, **Ref** {{ @rollData.attributes.savingThrows.ref.total }}, **Will** {{ @rollData.attributes.savingThrows.will.total }}
 
 #### OFFENSE
-
+**Speed** {{ @rollData.attributes.speed.land.total }} ft., fly {{ @rollData.attributes.speed.fly.total }} ft. ({{ @rollData.attributes.speed.fly.maneuverability }}), swim {{ @rollData.attributes.speed.swim.total }} ft., climb {{ @rollData.attributes.speed.climb.total }} ft., burrow {{ @rollData.attributes.speed.burrow.total }} ft.
 
 #### STATISTICS
 **Str** {{ @rollData.abilities.str.value }}, **Dex** {{ @rollData.abilities.dex.value }}, **Con** {{ @rollData.abilities.con.value }}, **Int** {{ @rollData.abilities.int.value }}, **Wis** {{ @rollData.abilities.wis.value }}, **Cha** {{ @rollData.abilities.cha.value }}
+**Base Atk** {{ @rollData.attributes.bab.total }}; **CMB** {{ @rollData.attributes.cmb.total }}; **CMD** {{ @rollData.attributes.cmd.total }}

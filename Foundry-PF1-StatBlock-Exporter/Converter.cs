@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Foundry_PF1_StatBlock_Exporter.ComputedProperties;
 using Newtonsoft.Json.Linq;
 
 namespace Foundry_PF1_StatBlock_Exporter
 {
     public class Converter
     {
-        private string inputString;
-        private string template;
-        private string title;
+        private static readonly Regex tagRegex = new Regex("{{ .*? }}");
 
-        private JObject input;
+        private readonly JObject input;
+        private readonly string template;
+        private string inputString;
+        private readonly PropertyStore propertyStore;
 
         private List<string> replacements = new List<string>();
-
-        private static Regex tagRegex = new Regex("{{ .*? }}");
+        private string title;
 
         public Converter(string inputString, string templateNpc, string templateCharacter, string title)
         {
@@ -32,11 +29,13 @@ namespace Foundry_PF1_StatBlock_Exporter
             {
                 template = templateNpc;
             }
-            
+
             if (input?["data"]?["type"]?.Value<string>() == "character")
             {
                 template = templateCharacter;
             }
+
+            propertyStore = new PropertyStore(input);
         }
 
         public string Convert()
@@ -45,8 +44,8 @@ namespace Foundry_PF1_StatBlock_Exporter
             {
                 return "";
             }
-            
-            MatchEvaluator matchEvaluator = new MatchEvaluator(ReplaceTag);
+
+            MatchEvaluator matchEvaluator = ReplaceTag;
 
             return tagRegex.Replace(template, matchEvaluator);
         }
@@ -60,83 +59,16 @@ namespace Foundry_PF1_StatBlock_Exporter
 
             if (tagContent.StartsWith("@"))
             {
-                string[] parts = tagContent[1..].Split(".");
+                JToken i = input.Traverse(tagContent[1..]) ?? "NULL";
 
-                JToken i = input;
-                    
-                foreach (string part in parts)
-                {
-                    if (part.StartsWith("$"))
-                    {
-                        int a = 0;
-                        if (int.TryParse(part[1..], out a))
-                        {
-                            try
-                            {
-                                JEnumerable<JToken>? children = i?.Children();
-                                
-                                if (children == null)
-                                {
-                                    break;
-                                }
-                                
-                                int j = 0;
-                                foreach (JToken child in children)
-                                {
-                                    if (j == a)
-                                    {
-                                        i = child.First;
-                                        break;
-                                    }
-
-                                    j += 1;
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("error");
-                                i = null;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        int a = 0;
-                        if (int.TryParse(part, out a))
-                        {
-                            try
-                            {
-                                i = i?[a];
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("error");
-                                i = null;
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                i = i?[part];
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("error");
-                                i = null;
-                            }
-                        }
-                    }
-                    
-                }
-
-                if (i == null)
-                {
-                    i = "NULL";
-                }
-                    
-                Console.WriteLine($"value: {i.ToString()}");
+                Console.WriteLine($"value: {i}");
                 return i.ToString();
+            }
+
+            if (tagContent.StartsWith("#"))
+            {
+                Console.WriteLine($"value: {propertyStore.Get(tagContent[1..])}");
+                return propertyStore.Get(tagContent[1..]);
             }
 
             return "NULL";
